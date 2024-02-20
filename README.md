@@ -15,3 +15,7 @@ conda activate hate
 pip install -r requirements.txt
 ```
 
+
+# Gcloud cli
+https://dl.google.com/dl/cloudsdk/channels/rapid/GoogleCloudSDKInstaller.exe
+
