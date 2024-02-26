@@ -1,0 +1,53 @@
+version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@8.2.1
+  aws-cli: circleci/aws-cli@3.1.4
+jobs:
+  continuous-integration:
+    docker:
+      - image: cimg/base:stable
+    resource_class: medium
+    steps:
+      - setup_remote_docker:
+          version: 20.10.14
+          docker_layer_caching: true
+
+      - aws-ecr/build-and-push-image:
+          create-repo: true
+          dockerfile: Dockerfile
+          path: .
+          platform: linux/amd64
+          push-image: true
+          region: '${AWS_REGION}'
+          repo: demo
+          registry-id: AWS_ECR_REGISTRY_ID
+          repo-scan-on-push: true
+          tag: latest
+
+  continuous-delivery:
+    machine: true
+    resource_class: bappy/hates
+    steps:
+      - aws-cli/setup
+
+      - run:
+          name: auth to aws ecr
+          command: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 136566696263.dkr.ecr.us-east-1.amazonaws.com
+
+      - run:
+          name: pull image from private repository
+          command: docker pull 136566696263.dkr.ecr.us-east-1.amazonaws.com/demo:latest
+      
+      - run:
+          name: run image
+          command: docker run -d -p 8080:8080 136566696263.dkr.ecr.us-east-1.amazonaws.com/demo:latest
+workflows:
+  CICD:
+    jobs:
+      - continuous-integration
+      - continuous-delivery:
+          requires:
+          - continuous-integration
+
+
+      

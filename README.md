@@ -38,3 +38,11 @@ gcloud init
 ```
 
 
+## Deployment
+
+1. Setting up circleCI
+2. Switch on self hosted runner
+3. Create Project
+4. Configure EC2
+5. config.yml
+
