@@ -45,4 +45,5 @@ gcloud init
 3. Create Project
 4. Configure EC2
 5. config.yml
-
+6. env variables
+7. 
