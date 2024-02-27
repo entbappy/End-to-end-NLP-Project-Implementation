@@ -26,22 +26,24 @@ jobs:
 
   continuous-delivery:
     machine: true
-    resource_class: bappy/hates
+    resource_class: bappy/haterunner
     steps:
       - aws-cli/setup
 
       - run:
           name: auth to aws ecr
           command: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 136566696263.dkr.ecr.us-east-1.amazonaws.com
+          
+          
 
       - run:
           name: pull image from private repository
-          command: docker pull 136566696263.dkr.ecr.us-east-1.amazonaws.com/hates:latest
+          command: docker pull 136566696263.dkr.ecr.us-east-1.amazonaws.com/hatedemo:latest
           
       
       - run:
           name: run image
-          command: docker run -d -p 8080:8080 136566696263.dkr.ecr.us-east-1.amazonaws.com/hates:latest
+          command: docker run -d -p 8080:8080 136566696263.dkr.ecr.us-east-1.amazonaws.com/hatedemo:latest
 workflows:
   CICD:
     jobs:
