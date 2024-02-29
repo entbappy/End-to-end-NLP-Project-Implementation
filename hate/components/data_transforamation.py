@@ -90,7 +90,7 @@ class DataTransformation:
             words = re.sub('[%s]' % re.escape(string.punctuation), '', words)
             words = re.sub('\n', '', words)
             words = re.sub('\w*\d\w*', '', words)
-            words = [word for word in words.split(' ') if words not in stopword]
+            words = [word for word in words.split(' ') if word not in stopword]
             words=" ".join(words)
             words = [stemmer.stem(word) for word in words.split(' ')]
             words=" ".join(words)
